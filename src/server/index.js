@@ -5,13 +5,13 @@ const ipl = require("./ipl");
 
 const MATCHES_FILE_PATH = "../data/matches.csv";
 const DELEVERIES_FILE_PATH = "../data/deliveries.csv";
-const MATCHES_PLAYED_JSON_PATH = "../output/matchesPlayedPerYear.json";
-const TOSS_WON_MATCH_WON_JSON_PATH = "../output/tossWonMatchWon.json";
+const MATCHES_PLAYED_JSON_PATH = "../public/output/matchesPlayedPerYear.json";
+const TOSS_WON_MATCH_WON_JSON_PATH = "../public/output/tossWonMatchWon.json";
 const BEST_ECONOMY_SUPER_OVER_JSON_PATH =
-  "../output/bestEconomyInSuperOver.json";
-const MOST_MAN_OF_MATCH_JSON_PATH = "../output/mostManOfMatch.json";
-const STRIKERATE_JSON_PATH = "../output/strikeRateOfBatsman.json";
-const BATSMAN_VS_BOWLER = "../output/batsmanVsBowler.json";
+  "../public/output/bestEconomyInSuperOver.json";
+const MOST_MAN_OF_MATCH_JSON_PATH = "../public/output/mostManOfMatch.json";
+const STRIKERATE_JSON_PATH = "../public/output/strikeRateOfBatsman.json";
+const BATSMAN_VS_BOWLER = "../public/output/batsmanVsBowler.json";
 
 function main() {
   csv()

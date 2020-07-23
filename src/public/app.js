@@ -1,20 +1,20 @@
 function fetchAndVisualizeData() {
-  fetch("../output/matchesPlayedPerYear.json")
+  fetch("./output/matchesPlayedPerYear.json")
     .then((r) => r.json())
     .then(visualizeMatchesPlayedPerYear);
-  fetch("../output/tossWonMatchWon.json")
+  fetch("./output/tossWonMatchWon.json")
     .then((r) => r.json())
     .then(tossWonMatchWon);
-  fetch("../output/bestEconomyInSuperOver.json")
+  fetch("./output/bestEconomyInSuperOver.json")
     .then((r) => r.json())
     .then(bestEconomyInSuperOver);
-  fetch("../output/mostManOfMatch.json")
+  fetch("./output/mostManOfMatch.json")
     .then((r) => r.json())
     .then(mostManOfMatch);
-  fetch("../output/strikeRateOfBatsman.json")
+  fetch("./output/strikeRateOfBatsman.json")
     .then((r) => r.json())
     .then(strikeRateOfBatsman);
-  fetch("../output/batsmanVsBowler.json")
+  fetch("./output/batsmanVsBowler.json")
     .then((r) => r.json())
     .then(batsmanVsBowler);
 }
