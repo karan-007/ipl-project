@@ -1,9 +1,8 @@
 function batsmanVsBowler(deliveries) {
-  let result = {};
-  deliveries
+  let result = deliveries
     .filter((delivery) => delivery.player_dismissed != "")
     .filter((delivery) => delivery.dismissal_kind != "run out")
-    .map((delivery) => {
+    .reduce((result, delivery) => {
       if (result[delivery.bowler]) {
         if (result[delivery.bowler][delivery.player_dismissed]) {
           result[delivery.bowler][delivery.player_dismissed] += 1;
@@ -14,33 +13,26 @@ function batsmanVsBowler(deliveries) {
         result[delivery.bowler] = {};
         result[delivery.bowler][delivery.player_dismissed] = 1;
       }
+      return result;
+    }, {});
+  let finalResult = [];
+  Object.entries(result).map((bowler) => {
+    Object.entries(bowler[1]).map((batsman) => {
+      finalResult.push([bowler[0] + " vs " + batsman[0], batsman[1]]);
     });
-
-  let data = [];
-  for (let bowler in result) {
-    let sorting = [];
-    for (let batsman in result[bowler]) {
-      sorting.push([bowler + " vs " + batsman, result[bowler][batsman]]);
-    }
-    sorting.map((player) => {
-      data.push(player);
-    });
-  }
-
-  data.sort((a, b) => {
+  });
+  finalResult.sort((a, b) => {
     return b[1] - a[1];
   });
-
-  return data.slice(0, 12);
+  return finalResult.slice(0, 12);
 }
 
 function bestEconomyInSuperOver(deliveries) {
   const runs = {};
   const balls = {};
-  const economy = {};
-  deliveries
+  const economy = deliveries
     .filter((delivery) => delivery.is_super_over === "1")
-    .map((delivery) => {
+    .reduce((economy, delivery) => {
       if (delivery.noball_runs != 0 || delivery.wide_runs != 0) {
         count = 1;
       } else {
@@ -51,7 +43,7 @@ function bestEconomyInSuperOver(deliveries) {
           parseInt(delivery.total_runs) -
           (parseInt(delivery.bye_runs) + parseInt(delivery.legbye_runs));
         balls[delivery.bowler] += 1;
-        balls[delivery] -= count;
+        balls[delivery.bowler] -= count;
         economy[delivery.bowler] =
           (runs[delivery.bowler] * 6) / balls[delivery.bowler];
       } else {
@@ -63,25 +55,25 @@ function bestEconomyInSuperOver(deliveries) {
         economy[delivery.bowler] =
           (runs[delivery.bowler] * 6) / balls[delivery.bowler];
       }
-    });
+      return economy;
+    }, {});
   return economy;
-}
 
+}
 function matchesPlayedPerYear(matches) {
-  const result = {};
-  matches.map((match) => {
+  const result = matches.reduce((result, match) => {
     if (result[match.season]) {
       result[match.season] += 1;
     } else {
       result[match.season] = 1;
     }
-  });
+    return result;
+  }, {});
   return result;
 }
 
 function mostManOfMatch(matches) {
-  let result = {};
-  matches.map((match) => {
+  let result = matches.reduce((result, match) => {
     if (result[match.season]) {
       if (result[match.season][match.player_of_match]) {
         result[match.season][match.player_of_match] += 1;
@@ -92,40 +84,37 @@ function mostManOfMatch(matches) {
       result[match.season] = {};
       result[match.season][match.player_of_match] = 1;
     }
-  });
-  let finalData = [];
-  for (season in result) {
+    return result;
+  }, {});
+  let finalResult = [];
+  Object.entries(result).map((season) => {
     let sorting = [];
-    for (player in result[season]) {
-      sorting.push([season + " " + player, result[season][player]]);
-    }
-    sorting.sort(function (a, b) {
+    Object.entries(season[1]).map((player) => {
+      sorting.push([season[0] + " " + player[0], player[1]]);
+    });
+    sorting.sort((a, b) => {
       return b[1] - a[1];
     });
-    finalData.push(sorting[0]);
-  }
-  return finalData;
+    finalResult.push(sorting[0]);
+  });
+  return finalResult;
 }
 
+
 function strikeRateOfBatsman(matches, deliveries) {
-  let seasons = [];
-  result = {};
-  balls = {};
-  runs = {};
-  matches.map((match) => {
-    if (!seasons.includes(match.season)) {
-      seasons.push(match.season);
-    }
-  });
+  let finalResult = {};
+  let seasons = new Set(matches.map((match) => match.season));
+  seasons = [...seasons];
   seasons.map((season) => {
-    result[season] = getStrikeRate(matches, deliveries, season);
+    finalResult[season] = getStrikeRate(matches, deliveries, season);
   });
 
-  return result;
+  return finalResult;
 
   function getStrikeRate(matches, deliveries, season) {
     let min = 100000;
     let max = 0;
+
     matches
       .filter((match) => match.season === season)
       .map((match) => {
@@ -136,41 +125,45 @@ function strikeRateOfBatsman(matches, deliveries) {
           max = parseInt(match.id);
         }
       });
-    deliveries
+
+    let result = deliveries
       .filter(
         (delivery) => min <= delivery.match_id && max >= delivery.match_id
       )
       .filter((delivery) => delivery.batsman === "MS Dhoni")
-      .map((delivery) => {
+      .reduce((result, delivery) => {
         if (delivery.wide_runs != 0) {
           count = 1;
         } else {
           count = 0;
         }
-        if (runs[season]) {
-          runs[season] += parseInt(delivery.batsman_runs);
-          balls[season] += 1;
-          balls[season] -= count;
+        if (result["runs"]) {
+          result["runs"] += parseInt(delivery.batsman_runs);
+          result["balls"] += 1;
+          result["balls"] -= count;
         } else {
-          runs[season] = parseInt(delivery.batsman_runs);
-          balls[season] = 1;
+          result["runs"] = parseInt(delivery.batsman_runs);
+          result["balls"] = 1;
         }
-      });
-    return ((runs[season] * 100) / balls[season]).toFixed(2);
+        return result;
+      }, {});
+
+    return ((result["runs"] * 100) / result["balls"]).toFixed(2);
+
   }
 }
 
 function tossWonMatchWon(matches) {
-  const result = {};
-  matches
+  const result = matches
     .filter((match) => match.toss_winner === match.winner)
-    .map((match) => {
+    .reduce((result, match) => {
       if (result[match.winner]) {
         result[match.winner] += 1;
       } else {
         result[match.winner] = 1;
       }
-    });
+      return result;
+    }, {});
   return result;
 }
 
