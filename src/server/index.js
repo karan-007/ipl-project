@@ -22,15 +22,29 @@ function main() {
         .then((deliveries) => {
           let resultMatchesPlayedPerYear = ipl.matchesPlayedPerYear(matches);
           let resultTossWonMatchWon = ipl.tossWonMatchWon(matches);
-          let resultBestEconomyInSuperOver = ipl.bestEconomyInSuperOver(deliveries);
+          let resultBestEconomyInSuperOver = ipl.bestEconomyInSuperOver(
+            deliveries
+          );
           let resultMostManOfMatch = ipl.mostManOfMatch(matches);
-          let resultStrikeRateOfBatsman = ipl.strikeRateOfBatsman(matches, deliveries);
+          let resultStrikeRateOfBatsman = ipl.strikeRateOfBatsman(
+            matches,
+            deliveries,
+            "MS Dhoni"
+          );
           let resultBatsmanVsBowler = ipl.batsmanVsBowler(deliveries);
 
-
-          saveResultToOutput(resultMatchesPlayedPerYear, MATCHES_PLAYED_JSON_PATH);
-          saveResultToOutput(resultTossWonMatchWon, TOSS_WON_MATCH_WON_JSON_PATH);
-          saveResultToOutput(resultBestEconomyInSuperOver, BEST_ECONOMY_SUPER_OVER_JSON_PATH);
+          saveResultToOutput(
+            resultMatchesPlayedPerYear,
+            MATCHES_PLAYED_JSON_PATH
+          );
+          saveResultToOutput(
+            resultTossWonMatchWon,
+            TOSS_WON_MATCH_WON_JSON_PATH
+          );
+          saveResultToOutput(
+            resultBestEconomyInSuperOver,
+            BEST_ECONOMY_SUPER_OVER_JSON_PATH
+          );
           saveResultToOutput(resultMostManOfMatch, MOST_MAN_OF_MATCH_JSON_PATH);
           saveResultToOutput(resultStrikeRateOfBatsman, STRIKERATE_JSON_PATH);
           saveResultToOutput(resultBatsmanVsBowler, BATSMAN_VS_BOWLER);
@@ -46,6 +60,5 @@ function saveResultToOutput(result, path) {
     }
   });
 }
-
 
 main();
