@@ -28,38 +28,45 @@ function batsmanVsBowler(deliveries) {
 }
 
 function bestEconomyInSuperOver(deliveries) {
-  const runs = {};
-  const balls = {};
-  const economy = deliveries
+  const economy = {};
+  const player = deliveries
     .filter((delivery) => delivery.is_super_over === "1")
-    .reduce((economy, delivery) => {
+    .reduce((player, delivery) => {
       if (delivery.noball_runs != 0 || delivery.wide_runs != 0) {
         count = 1;
       } else {
         count = 0;
       }
-      if (runs[delivery.bowler]) {
-        runs[delivery.bowler] +=
-          parseInt(delivery.total_runs) -
-          (parseInt(delivery.bye_runs) + parseInt(delivery.legbye_runs));
-        balls[delivery.bowler] += 1;
-        balls[delivery.bowler] -= count;
-        economy[delivery.bowler] =
-          (runs[delivery.bowler] * 6) / balls[delivery.bowler];
+      if (player[delivery.bowler]) {
+        if (player[delivery.bowler]["runs"]) {
+          player[delivery.bowler]["runs"] +=
+            parseInt(delivery.total_runs) -
+            (parseInt(delivery.bye_runs) + parseInt(delivery.legbye_runs));
+          player[delivery.bowler]["balls"] += 1;
+          player[delivery.bowler]["balls"] -= count;
+          economy[delivery.bowler] =
+            (player[delivery.bowler]["runs"] * 6) /
+            player[delivery.bowler]["balls"];
+        } else {
+          player[delivery.bowler]["runs"] =
+            parseInt(delivery.total_runs) -
+            (parseInt(delivery.bye_runs) + parseInt(delivery.legbye_runs));
+          player[delivery.bowler]["balls"] = 1;
+          player[delivery.bowler]["balls"] -= count;
+        }
       } else {
-        runs[delivery.bowler] =
+        player[delivery.bowler] = {};
+        player[delivery.bowler]["runs"] =
           parseInt(delivery.total_runs) -
           (parseInt(delivery.bye_runs) + parseInt(delivery.legbye_runs));
-        balls[delivery.bowler] = 1;
-        balls[delivery.bowler] -= count;
-        economy[delivery.bowler] =
-          (runs[delivery.bowler] * 6) / balls[delivery.bowler];
+        player[delivery.bowler]["balls"] = 1;
+        player[delivery.bowler]["balls"] -= count;
       }
-      return economy;
+      return player;
     }, {});
   return economy;
-
 }
+
 function matchesPlayedPerYear(matches) {
   const result = matches.reduce((result, match) => {
     if (result[match.season]) {
@@ -99,7 +106,6 @@ function mostManOfMatch(matches) {
   });
   return finalResult;
 }
-
 
 function strikeRateOfBatsman(matches, deliveries) {
   let finalResult = {};
@@ -149,7 +155,6 @@ function strikeRateOfBatsman(matches, deliveries) {
       }, {});
 
     return ((result["runs"] * 100) / result["balls"]).toFixed(2);
-
   }
 }
 
