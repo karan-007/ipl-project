@@ -68,9 +68,10 @@ function bestEconomyInSuperOver(deliveries) {
     }, {});
 
   let economy = Object.entries(player).reduce((economy, bowler) => {
-    economy[bowler[0]] = (bowler[1]["runs"] * 6) / bowler[1]["balls"];
-    return economy;
-  }, {});
+    let temp = [bowler[0], (bowler[1]["runs"] * 6) / bowler[1]["balls"]];
+    return economy.concat([temp]);
+  }, []);
+
   return economy;
 }
 
@@ -83,7 +84,7 @@ function matchesPlayedPerYear(matches) {
     }
     return result;
   }, {});
-  return result;
+  return Object.entries(result);
 }
 
 function mostManOfMatch(matches) {
@@ -121,8 +122,7 @@ function strikeRateOfBatsman(matches, deliveries, player) {
     finalResult[season] = getStrikeRate(matches, deliveries, season, player);
     return finalResult;
   }, {});
-
-  return finalResult;
+  return Object.entries(finalResult);
 
   function getStrikeRate(matches, deliveries, season, player) {
     let min = 100000;
@@ -161,7 +161,7 @@ function strikeRateOfBatsman(matches, deliveries, player) {
         return result;
       }, {});
 
-    return ((result["runs"] * 100) / result["balls"]).toFixed(2);
+    return parseFloat(((result["runs"] * 100) / result["balls"]).toFixed(2));
   }
 }
 
@@ -176,7 +176,8 @@ function tossWonMatchWon(matches) {
       }
       return result;
     }, {});
-  return result;
+
+  return Object.entries(result);
 }
 
 module.exports = {

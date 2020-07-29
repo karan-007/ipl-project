@@ -21,22 +21,7 @@ function fetchAndVisualizeData() {
 
 fetchAndVisualizeData();
 
-// function visualizeData(data) {
-//   visualizeMatchesPlayedPerYear(data.matchesPlayedPerYear);
-//   tossWonMatchWon(data.tossWonMatchWon);
-//   bestEconomyInSuperOver(data.bestEconomyInSuperOver);
-//   mostManOfMatch(data.mostManOfMatch);
-//   strikeRateOfBatsman(data.strikeRateOfBatsman);
-//   batsmanVsBowler(data.batsmanVsBowler);
-//   return;
-// }
-
 function visualizeMatchesPlayedPerYear(matchesPlayedPerYear) {
-  const seriesData = [];
-  for (let year in matchesPlayedPerYear) {
-    seriesData.push([year, matchesPlayedPerYear[year]]);
-  }
-  //console.log(seriesData)
   Highcharts.chart("matches-played-per-year", {
     chart: {
       type: "column",
@@ -60,18 +45,13 @@ function visualizeMatchesPlayedPerYear(matchesPlayedPerYear) {
     series: [
       {
         name: "Years",
-        data: seriesData,
+        data: matchesPlayedPerYear,
       },
     ],
   });
 }
 
 function tossWonMatchWon(tossWonMatchWon) {
-  const seriesData = [];
-  for (let team in tossWonMatchWon) {
-    seriesData.push([team, tossWonMatchWon[team]]);
-  }
-
   Highcharts.chart("container", {
     chart: {
       type: "column",
@@ -95,18 +75,13 @@ function tossWonMatchWon(tossWonMatchWon) {
     series: [
       {
         name: "Wins",
-        data: seriesData,
+        data: tossWonMatchWon,
       },
     ],
   });
 }
 
 function bestEconomyInSuperOver(bestEconomyInSuperOver) {
-  const seriesData = [];
-  for (let bowler in bestEconomyInSuperOver) {
-    seriesData.push([bowler, bestEconomyInSuperOver[bowler]]);
-  }
-
   Highcharts.chart("container1", {
     chart: {
       type: "column",
@@ -130,7 +105,7 @@ function bestEconomyInSuperOver(bestEconomyInSuperOver) {
     series: [
       {
         name: "Economy",
-        data: seriesData,
+        data: bestEconomyInSuperOver,
       },
     ],
   });
@@ -167,11 +142,6 @@ function mostManOfMatch(data1) {
 }
 
 function strikeRateOfBatsman(strikeRateOfBatsman) {
-  const seriesData = [];
-  for (let season in strikeRateOfBatsman) {
-    seriesData.push([season, parseFloat(strikeRateOfBatsman[season])]);
-  }
-
   Highcharts.chart("container3", {
     chart: {
       type: "column",
@@ -195,7 +165,7 @@ function strikeRateOfBatsman(strikeRateOfBatsman) {
     series: [
       {
         name: "Strike Rate",
-        data: seriesData,
+        data: strikeRateOfBatsman,
       },
     ],
   });
