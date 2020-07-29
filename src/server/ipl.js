@@ -67,10 +67,10 @@ function bestEconomyInSuperOver(deliveries) {
       return player;
     }, {});
 
-  const economy = {};
-  for (let bowler in player) {
-    economy[bowler] = (player[bowler]["runs"] * 6) / player[bowler]["balls"];
-  }
+  let economy = Object.entries(player).reduce((economy, bowler) => {
+    economy[bowler[0]] = (bowler[1]["runs"] * 6) / bowler[1]["balls"];
+    return economy;
+  }, {});
   return economy;
 }
 
@@ -114,16 +114,17 @@ function mostManOfMatch(matches) {
 }
 
 function strikeRateOfBatsman(matches, deliveries, player) {
-  let finalResult = {};
   let seasons = new Set(matches.map((match) => match.season));
   seasons = [...seasons];
-  seasons.forEach((season) => {
-    finalResult[season] = getStrikeRate(matches, deliveries, season);
-  });
+
+  let finalResult = seasons.reduce((finalResult, season) => {
+    finalResult[season] = getStrikeRate(matches, deliveries, season, player);
+    return finalResult;
+  }, {});
 
   return finalResult;
 
-  function getStrikeRate(matches, deliveries, season) {
+  function getStrikeRate(matches, deliveries, season, player) {
     let min = 100000;
     let max = 0;
 
