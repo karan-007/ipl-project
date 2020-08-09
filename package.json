@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "csvtojson": "^2.0.10",
+    "dotenv": "^8.2.0",
     "http-server": "^0.12.1"
   },
   "devDependencies": {

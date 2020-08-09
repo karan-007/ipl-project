@@ -22,6 +22,10 @@ function fetchAndVisualizeData() {
 fetchAndVisualizeData();
 
 function visualizeMatchesPlayedPerYear(matchesPlayedPerYear) {
+  const data = matchesPlayedPerYear.reduce((data, season) => {
+    data.push([season.season, season.matchesPlayed]);
+    return data;
+  }, [])
   Highcharts.chart("matches-played-per-year", {
     chart: {
       type: "column",
@@ -45,13 +49,17 @@ function visualizeMatchesPlayedPerYear(matchesPlayedPerYear) {
     series: [
       {
         name: "Years",
-        data: matchesPlayedPerYear,
+        data: data,
       },
     ],
   });
 }
 
 function tossWonMatchWon(tossWonMatchWon) {
+  const data = tossWonMatchWon.reduce((data, teamData) => {
+    data.push([teamData.team, teamData.count]);
+    return data;
+  }, [])
   Highcharts.chart("container", {
     chart: {
       type: "column",
@@ -75,13 +83,17 @@ function tossWonMatchWon(tossWonMatchWon) {
     series: [
       {
         name: "Wins",
-        data: tossWonMatchWon,
+        data: data,
       },
     ],
   });
 }
 
 function bestEconomyInSuperOver(bestEconomyInSuperOver) {
+  const data = bestEconomyInSuperOver.reduce((data, bowlerData) => {
+    data.push([bowlerData.bowler, bowlerData.economy]);
+    return data;
+  }, [])
   Highcharts.chart("container1", {
     chart: {
       type: "column",
@@ -105,13 +117,17 @@ function bestEconomyInSuperOver(bestEconomyInSuperOver) {
     series: [
       {
         name: "Economy",
-        data: bestEconomyInSuperOver,
+        data: data,
       },
     ],
   });
 }
 
-function mostManOfMatch(data1) {
+function mostManOfMatch(mostManOfMatch) {
+  const result = mostManOfMatch.reduce((result, data) => {
+    result.push([data.season, data.countPOM]);
+    return result;
+  }, [])
   Highcharts.chart("container2", {
     chart: {
       type: "column",
@@ -135,13 +151,17 @@ function mostManOfMatch(data1) {
     series: [
       {
         name: "Most Player of Match",
-        data: data1,
+        data: result,
       },
     ],
   });
 }
 
 function strikeRateOfBatsman(strikeRateOfBatsman) {
+  const result = strikeRateOfBatsman.reduce((result, data) => {
+    result.push([data.season, data.strikeRate]);
+    return result;
+  }, [])
   Highcharts.chart("container3", {
     chart: {
       type: "column",
@@ -165,13 +185,17 @@ function strikeRateOfBatsman(strikeRateOfBatsman) {
     series: [
       {
         name: "Strike Rate",
-        data: strikeRateOfBatsman,
+        data: result,
       },
     ],
   });
 }
 
-function batsmanVsBowler(data1) {
+function batsmanVsBowler(batsmanVsBowler) {
+  const result = batsmanVsBowler.reduce((result, data) => {
+    result.push([data.batsman + " vs " + data.bowler, data.count]);
+    return result;
+  }, [])
   Highcharts.chart("container4", {
     chart: {
       type: "column",
@@ -196,7 +220,7 @@ function batsmanVsBowler(data1) {
     series: [
       {
         name: "Wickets",
-        data: data1,
+        data: result,
       },
     ],
   });
