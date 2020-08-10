@@ -22,21 +22,21 @@ const hostname = process.env.HOST,
     password = process.env.PASSWORD,
     databasename = process.env.DATABASE
 
-// let con = mysql.createConnection({
-//     multipleStatements: true,
-//     host: process.env.HOST,
-//     user: process.env.USERNAME,
-//     password: process.env.PASSWORD,
-//     database: process.env.DATABASE
-// });
-
 let con = mysql.createConnection({
     multipleStatements: true,
-    host: 'localhost',
-    user: 'root',
-    password: 'password',
-    database: 'ipl'
+    host: process.env.HOST,
+    user: process.env.USERNAME,
+    password: process.env.PASSWORD,
+    database: process.env.DATABASE
 });
+
+// let con = mysql.createConnection({
+//     multipleStatements: true,
+//     host: 'localhost',
+//     user: 'root',
+//     password: 'password',
+//     database: 'ipl'
+// });
 
 con.connect();
 
