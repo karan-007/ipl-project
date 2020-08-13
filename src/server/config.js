@@ -41,7 +41,7 @@ var strikeRate = `select season,(sum(batsman_runs)*100/(count(batsman)-count(cas
 runquery(strikeRate, STRIKERATE_JSON_PATH);
 
 function runquery(query, path) {
-    con.query(query, (err, results, fields) => {
+    con.query(query, (err, results) => {
         if (err) {
             console.log(err);
         } else {
